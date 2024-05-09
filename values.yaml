@@ -1,0 +1,42 @@
+annotations_auth: &basic_auth
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
+
+# Example annotations
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #     if ($request_method != POST) {
+    #       return 403;
+    #     }
+
+
+defoult: &default_settings
+    namespace: externals
+    port: 80
+    pathType: Prefix
+    tls: true
+    clusterIssuer: "regru-dns"
+    annotations: {}
+    labels:
+      nginx: proxy
+      service: external
+
+proxyDNS: []
+  # - serviceName: blog
+  #   ips:
+  #   - 192.168.0.115
+  #   targetPort: 8080
+  #   <<: *default_settings
+  #   host: blog.example.ru
+  #
+  # - serviceName: nas
+  #   ips:
+  #   - 192.168.0.2
+  #   targetPort: 8000
+  #   <<: *default_settings
+  #   <<: *basic_auth
+  #   tls: false
+  #   host: nas.example.ru
+  #   annotations:
+  #     nginx.ingress.kubernetes.io/whitelist-source-range: "192.168.0.0/24"
+

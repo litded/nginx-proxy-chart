@@ -1,0 +1,19 @@
+{{- range .Values.proxyDNS }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .namespace }}
+  name: {{ .serviceName }}-service
+  labels:
+    site: {{ .serviceName }}
+    app: nginx
+spec:
+  ports:
+  - name: {{ .serviceName }}
+    port: {{ .port }}
+    protocol: TCP
+    targetPort: {{ .targetPort }}
+  clusterIP: None
+  type: ClusterIP
+{{- end }}

@@ -1,0 +1,20 @@
+{{- range .Values.proxyDNS }}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  namespace: {{ .namespace }}
+  name: {{ .serviceName }}-service
+  labels:
+    site: {{ .serviceName }}
+    app: nginx
+subsets:
+- addresses:
+    {{- range .ips }}
+    - ip: {{ . }}
+    {{- end }}
+  ports:
+  - name: {{ .serviceName }}
+    port: {{ .targetPort }}
+    protocol: TCP
+{{- end }}

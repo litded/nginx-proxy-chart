@@ -1,0 +1,38 @@
+{{- range .Values.proxyDNS }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: {{ .namespace }}
+  name: {{ .serviceName }}
+  labels:
+{{- range $name, $value := .labels }}
+    {{- $name | nindent 4  }}: {{ $value }}
+{{- end }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  {{- if .tls }}
+    cert-manager.io/cluster-issuer: {{ .clusterIssuer }}
+  {{- end }}
+  {{- with .annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .tls }}
+  tls:
+  - hosts:
+    - {{ .host }}
+    secretName: {{ .host |  replace "." "-" }}-tls
+  {{- end }}
+  rules:
+  - host: {{ .host }}
+    http:
+      paths:
+      - path: /
+        pathType: {{ .pathType }}
+        backend:
+          service:
+            name: {{ .serviceName }}-service
+            port:
+              number: {{ .port }}
+{{- end }}
