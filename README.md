@@ -3,7 +3,7 @@
 Прокси для внешних локальных сервисов.
 
 ```bash
-helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.1 
+helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.11
 ```
 
 # basic_auth
