@@ -9,6 +9,14 @@ annotations_auth: &basic_auth
     #       return 403;
     #     }
 
+annotations_limits: &basic_limits
+    nginx.ingress.kubernetes.io/limit-connections: "100"
+    nginx.ingress.kubernetes.io/limit-rpm: "200"
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "2"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/limit-whitelist: "192.168.0.0/24,10.0.0.0/8"    
+
 
 defoult: &default_settings
     namespace: externals
@@ -27,6 +35,7 @@ proxyDNS: []
   #   - 192.168.0.115
   #   targetPort: 8080
   #   <<: *default_settings
+  #   <<: *basic_limits
   #   host: blog.example.ru
   #
   # - serviceName: nas
