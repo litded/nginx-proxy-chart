@@ -2,6 +2,12 @@
 
 Прокси для внешних локальных сервисов.
 
+Kubernetes v1.33+
+```bash
+helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.14
+```
+
+Kubernetes < v1.33
 ```bash
 helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.12
 ```
