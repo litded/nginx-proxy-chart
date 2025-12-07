@@ -1,22 +1,20 @@
 {{- range .Values.proxyDNS }}
 ---
-apiVersion: discovery.k8s.io/v1
-kind: EndpointSlice
+apiVersion: v1
+kind: Endpoints
 metadata:
   namespace: {{ .namespace }}
-  name: {{ .serviceName }}-{{ randAlphaNum 5 | lower }}
+  name: {{ .serviceName }}-service
   labels:
-    kubernetes.io/service-name: {{ .serviceName }}-service
     site: {{ .serviceName }}
     app: nginx
-addressType: IPv4
-ports:
+subsets:
+- addresses:
+    {{- range .ips }}
+    - ip: {{ . }}
+    {{- end }}
+  ports:
   - name: {{ .serviceName }}
     port: {{ .targetPort }}
     protocol: TCP
-endpoints:
-  {{- range .ips }}
-  - addresses:
-      - "{{ . }}"
-  {{- end }}
 {{- end }}
