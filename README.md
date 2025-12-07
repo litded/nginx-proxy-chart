@@ -4,7 +4,7 @@
 
 Kubernetes v1.33+
 ```bash
-helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.14
+helm upgrade --install externals oci://ghcr.io/litded/nginx-proxy-chart  --version 0.1.15
 ```
 
 Kubernetes < v1.33
